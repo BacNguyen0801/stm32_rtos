@@ -289,21 +289,21 @@ void stm32f1x_afio_driver_init()
 	afio_reg->AFIO_MAPR_REG.SWJ_CFG = ALT_SWJ_CFG_FULL;
 }
 
-void stm32f1x_gpio_setValue(BYTE Port, DWORD Pin)
+void stm32f1x_gpio_TurnOn(BYTE Port, DWORD Pin)
 {
 	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
 	p->BSRR_REG.BSRR &= ~(Pin << 16);
 	p->BSRR_REG.BSRR |= Pin;
 }
 
-void stm32f1x_gpio_clearValue(BYTE Port, DWORD Pin)
+void stm32f1x_gpio_TurnOff(BYTE Port, DWORD Pin)
 {
 	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
 	p->BSRR_REG.BSRR &= ~Pin;
 	p->BSRR_REG.BSRR |= Pin << 16;
 }
 
-BYTE stm32f1x_gpio_getValue(BYTE Port, DWORD Pin)
+BYTE stm32f1x_gpio_GetValue(BYTE Port, DWORD Pin)
 {
 	BYTE ret = 0x00;
 	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
