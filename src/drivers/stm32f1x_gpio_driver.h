@@ -33,9 +33,11 @@
 
 void stm32f1x_gpio_driver_init();
 void stm32f1x_afio_driver_init();
+
+void stm32f1x_gpio_TurnOff(BYTE Port, DWORD Pin);
+void stm32f1x_gpio_TurnOn(BYTE Port, DWORD Pin);
 BYTE stm32f1x_gpio_getValue(BYTE Port, DWORD Pin);
-void stm32f1x_gpio_clearValue(BYTE Port, DWORD Pin);
-void stm32f1x_gpio_setValue(BYTE Port, DWORD Pin);
+
 DWORD stm32f1x_gpio_getPort(BYTE Port);
 void stm32f1x_gpio_clearPort(BYTE Port);
 void stm32f1x_gpio_setPort(BYTE Port, DWORD Data);

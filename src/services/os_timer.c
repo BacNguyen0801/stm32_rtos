@@ -2,6 +2,8 @@
 #include "sys_init.h"
 #include "systick_timer.h"
 
+#include "warning_indicator.h"
+
 /* Declare local variables */
 static os_state_ten os_state;
 static DWORD timer_tick;
@@ -156,25 +158,26 @@ void SysTick_Handler()
 
 static void os_timer_task_base()
 {
-	
+	/* API run as BG 1ms */
 }
 static void os_timer_task_x2()
 {
-
+	/* API run as BG 2ms */
 }
 static void os_timer_task_x8()
 {
-
+	/* API run as BG 8ms */
 }
 static void os_timer_task_x16()
 {
-
+	/* API run as BG 16ms */
 }
 static void os_timer_task_x64()
 {
-
+	/* API run as BG 64ms */
 }
 static void os_timer_task_x128()
 {
-
+	/* API run as BG 128ms */
+	warning_indicator_run();
 }
