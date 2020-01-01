@@ -219,16 +219,17 @@ static volatile GPIOx_REG_MAP *const gpio_d_reg = GPIO_PORT_D_BASE_ADDRESS;
 static volatile GPIOx_REG_MAP *const gpio_e_reg = GPIO_PORT_E_BASE_ADDRESS;
 static volatile GPIOx_REG_MAP *const gpio_f_reg = GPIO_PORT_F_BASE_ADDRESS;
 static volatile GPIOx_REG_MAP *const gpio_g_reg = GPIO_PORT_G_BASE_ADDRESS;
-static volatile AFIO_REG_MAP *const afio_reg;
+static volatile AFIO_REG_MAP *afio_reg;
 
-static volatile GPIOx_REG_MAP *gpio_reg_lst[GPIOx_PORT_NUM_MAX] = {
+static GPIOx_REG_MAP *const gpio_reg_lst[GPIOx_PORT_NUM_MAX] = {
 	gpio_a_reg,
 	gpio_b_reg,
 	gpio_c_reg,
 	gpio_d_reg,
 	gpio_e_reg,
 	gpio_f_reg,
-	gpio_g_reg};
+	gpio_g_reg
+};
 
 void stm32f1x_gpio_driver_init()
 {
@@ -292,14 +293,12 @@ void stm32f1x_afio_driver_init()
 void stm32f1x_gpio_TurnOn(BYTE Port, DWORD Pin)
 {
 	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
-	p->BSRR_REG.BSRR &= ~(Pin << 16);
 	p->BSRR_REG.BSRR |= Pin;
 }
 
 void stm32f1x_gpio_TurnOff(BYTE Port, DWORD Pin)
 {
 	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
-	p->BSRR_REG.BSRR &= ~Pin;
 	p->BSRR_REG.BSRR |= Pin << 16;
 }
 
