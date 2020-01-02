@@ -1195,7 +1195,6 @@ void stm32f1x_rcc_driver_init()
 {
     stm32f1x_rcc_reg->CR_REG.HSION = HSION_8Mhz_INTERNAL_ON;
 
-    // stm32f1x_rcc_reg->CFGR_REG.SW = SW_HSI_SELECTED;
     stm32f1x_rcc_reg->CFGR_REG.SW = SW_PLL_SELECTED;
     stm32f1x_rcc_reg->CFGR_REG.HPRE = HPRE_SYSCLK_NOT_DIV;
     stm32f1x_rcc_reg->CFGR_REG.PPRE1 = PPRE1_HCLK_NOT_DIV;
@@ -1208,9 +1207,8 @@ void stm32f1x_rcc_driver_init()
     stm32f1x_rcc_reg->CR_REG.PLLON = PLLON_OFF;
     stm32f1x_rcc_reg->CR_REG.HSEBYP = HSEBYP_EXTERNAL_OSC_NOT_BYPASSED;
 
-    stm32f1x_rcc_reg->CFGR_REG.PLLSRC = PLLSRC_HSI_CLOCK_DIV_2;
+    stm32f1x_rcc_reg->CFGR_REG.PLLSRC = PLLSRC_HSE_CLOCK;
     stm32f1x_rcc_reg->CFGR_REG.PLLXTPRE = PLLXTPRE_NOT_DIV;
-    // stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_2;
     stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_16;
     stm32f1x_rcc_reg->CFGR_REG.USBPRE = USBPRE_PLL_DIV;
 
