@@ -39,6 +39,5 @@ void stm32f1x_gpio_TurnOn(BYTE Port, DWORD Pin);
 BYTE stm32f1x_gpio_getValue(BYTE Port, DWORD Pin);
 
 DWORD stm32f1x_gpio_getPort(BYTE Port);
-void stm32f1x_gpio_clearPort(BYTE Port);
-void stm32f1x_gpio_setPort(BYTE Port, DWORD Data);
-void stm32f1x_gpio_switchOn(BYTE Port);
+void stm32f1x_gpio_switchOffAll(BYTE Port);
+void stm32f1x_gpio_switchOnAll(BYTE Port);

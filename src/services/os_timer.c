@@ -10,20 +10,16 @@ static DWORD timer_tick;
 static DWORD task_indicator;
 static ERROR_CODE	error_code;
 
-static void os_timer_task_base();
-static void os_timer_task_x2();
-static void os_timer_task_x8();
-static void os_timer_task_x16();
-static void os_timer_task_x64();
-static void os_timer_task_x128();
+static void os_timer_task_2ms();
+static void os_timer_task_16ms();
+static void os_timer_task_32ms();
+static void os_timer_task_240ms();
 
 static task_fp	os_timer_array_tasks[NUM_TASK_DEF] = {
-	&os_timer_task_base,
-	&os_timer_task_x2,
-	&os_timer_task_x8,
-	&os_timer_task_x16,
-	&os_timer_task_x64,
-	&os_timer_task_x128
+	&os_timer_task_2ms,
+	&os_timer_task_16ms,
+	&os_timer_task_32ms,
+	&os_timer_task_240ms,
 };
 
 void os_timer_init()
@@ -76,7 +72,7 @@ void os_timer_set_state(os_state_ten new_state)
 os_state_ten os_timer_handle_tasks()
 {
 	unsigned char task_type = 0;
-	while (task_indicator && task_type < task_max_e)
+	while ((0 != task_indicator) && (task_type < task_max_e))
 	{
 		if (IS_BIT_SET(task_type, task_indicator))
 		{
@@ -94,12 +90,6 @@ os_state_ten os_timer_handle_error()
 	sys_sta_report_error(os_timer_e, error_code);
 	switch (error_code)
 	{
-	case err_runtime_issue:
-	{
-		/* os corresponding reaction */
-		/* example: trigger to reset MCU */
-		break;
-	}
 	default:
 	{
 		/* code never touch here */
@@ -121,63 +111,65 @@ void SysTick_Handler()
 	timer_tick++;
 	if ((timer_tick & DEFINE_BASE_TASK_MODULO) == 0)
 	{
-		if (task_indicator != 0) /* only check for base task, other task no need to check */
+		if (0 != IS_BIT_SET(task_2ms_e, task_indicator)) /* only check for base task, other task no need to check */
 		{
-			error_code = err_runtime_issue;
+			error_code = err_runtime_task2ms_issue;
 			os_timer_set_state(os_error_e);
 			return;
 		}
-		SET_BIT(task_base_e, task_indicator);
+		SET_BIT(task_2ms_e, task_indicator);
 	}
 
-	if ((timer_tick & DEFINE_X2_TASK_MODULO) == 0)
-	{
-		SET_BIT(task_x2_e, task_indicator);
-	}
 
 	if ((timer_tick & DEFINE_X8_TASK_MODULO) == 0)
 	{
-		SET_BIT(task_x8_e, task_indicator);
+		if (0 != IS_BIT_SET(task_16ms_e, task_indicator)) /* only check for base task, other task no need to check */
+		{
+			error_code = err_runtime_task8ms_issue;
+			os_timer_set_state(os_error_e);
+			return;
+		}
+		SET_BIT(task_16ms_e, task_indicator);
 	}
 
-	if ((timer_tick & DEFINE_X16_TASK_MODULO) == 0)
+	if ((timer_tick & DEFINE_X32_TASK_MODULO) == 0)
 	{
-		SET_BIT(task_x16_e, task_indicator);
-	}
-
-	if ((timer_tick & DEFINE_X64_TASK_MODULO) == 0)
-	{
-		SET_BIT(task_x64_e, task_indicator);
+		if (0 != IS_BIT_SET(task_64ms_e, task_indicator)) /* only check for base task, other task no need to check */
+		{
+			error_code = err_runtime_task64ms_issue;
+			os_timer_set_state(os_error_e);
+			return;
+		}
+		SET_BIT(task_64ms_e, task_indicator);
 	}
 
 	if ((timer_tick & DEFINE_X128_TASK_MODULO) == 0)
 	{
-		SET_BIT(task_x128_e, task_indicator);
+		if (0 != IS_BIT_SET(task_240ms_e, task_indicator)) /* only check for base task, other task no need to check */
+		{
+			error_code = err_runtime_task128ms_issue;
+			os_timer_set_state(os_error_e);
+			return;
+		}
+		SET_BIT(task_240ms_e, task_indicator);
 	}
 }
 
-static void os_timer_task_base()
-{
-	/* API run as BG 1ms */
-}
-static void os_timer_task_x2()
+static void os_timer_task_2ms()
 {
 	/* API run as BG 2ms */
 }
-static void os_timer_task_x8()
-{
-	/* API run as BG 8ms */
-}
-static void os_timer_task_x16()
+
+static void os_timer_task_16ms()
 {
 	/* API run as BG 16ms */
 }
-static void os_timer_task_x64()
+static void os_timer_task_32ms()
 {
-	/* API run as BG 64ms */
+	/* API run as BG 332ms */
 }
-static void os_timer_task_x128()
+static void os_timer_task_240ms()
 {
-	/* API run as BG 128ms */
+	/* API run as BG 240ms */
 	warning_indicator_run();
 }

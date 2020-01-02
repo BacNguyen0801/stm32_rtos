@@ -317,19 +317,14 @@ DWORD stm32f1x_gpio_getPort(BYTE Port)
 	ret = p->IDR_REG.IDR;
 	return ret;
 }
-void stm32f1x_gpio_clearPort(BYTE Port)
+void stm32f1x_gpio_switchOffAll(BYTE Port)
+{
+	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
+	p->BSRR_REG.BSRR = GPIOx_PIN_ALL << 16;
+}
+
+void stm32f1x_gpio_switchOnAll(BYTE Port)
 {
 	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
 	p->BSRR_REG.BSRR = GPIOx_PIN_ALL;
-}
-void stm32f1x_gpio_setPort(BYTE Port, DWORD Data)
-{
-	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
-	p->ODR_REG.ODR = Data;
-}
-
-void stm32f1x_gpio_switchOn(BYTE Port)
-{
-	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
-	p->BRR_REG.BRR = GPIOx_PIN_ALL;
 }

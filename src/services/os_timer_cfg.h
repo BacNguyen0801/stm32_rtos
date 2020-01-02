@@ -3,12 +3,10 @@
 
 /* Typedef area */
 typedef enum {
-	task_base_e,	/* base task upon timer config interrupt */
-	task_x2_e,		/* x2 task cyclic */
-	task_x8_e,		/* x8 task cyclic */
-	task_x16_e,		/* x16 task cyclic */
-	task_x64_e,		/* x64 task cyclic */
-	task_x128_e,	/* x128 task cyclic */
+	task_2ms_e,	/* base task upon timer config interrupt */
+	task_16ms_e,		/* x8 task cyclic */
+	task_64ms_e,		/* x32 task cyclic */
+	task_240ms_e,	/* x128 task cyclic */
 	task_max_e	/* invalid task cyclic */
 } os_tasktype_ten;
 typedef enum {
@@ -27,7 +25,7 @@ typedef void (*interupt_handler_fp)(void);
 #define DEFINE_X2_TASK_MODULO		0x03
 #define DEFINE_X8_TASK_MODULO		0x0F
 #define DEFINE_X16_TASK_MODULO		0x1F
-#define DEFINE_X64_TASK_MODULO		0x7F
+#define DEFINE_X32_TASK_MODULO		0x3F
 #define DEFINE_X128_TASK_MODULO		0xFF
 #define NUM_TASK_DEF				task_max_e
 #define MAX_NUMBER_FUNC_PER_TASKS	0x0F
