@@ -1209,7 +1209,7 @@ void stm32f1x_rcc_driver_init()
 
     stm32f1x_rcc_reg->CFGR_REG.PLLSRC = PLLSRC_HSE_CLOCK;
     stm32f1x_rcc_reg->CFGR_REG.PLLXTPRE = PLLXTPRE_NOT_DIV;
-    stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_16;
+    stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_9;
     stm32f1x_rcc_reg->CFGR_REG.USBPRE = USBPRE_PLL_DIV;
 
     stm32f1x_rcc_reg->CIR_REG.LSIRDYC = LSIRDYC_CLEAR_FLAG;
