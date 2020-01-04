@@ -1,7 +1,7 @@
 #include "warning_indicator.h"
 #include "HAL_gpio_control.h"
 
-#define WI_INIT_THRESHOLD 200u /* 200 * 240 ms = 4800ms = 24s */
+#define WI_INIT_THRESHOLD 100u /* 100 * 240 ms = 2400ms */
 #define WI_OFF_THRESHOLD 50u /* 50 * 240 ms = 6400ms = 6.4s */
 
 

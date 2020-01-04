@@ -8,7 +8,7 @@
 static os_state_ten os_state;
 static DWORD timer_tick;
 static DWORD task_indicator;
-static ERROR_CODE	error_code;
+static ERROR_CODE	error_code = err_runtime_no_issue;
 
 static void os_timer_task_2ms();
 static void os_timer_task_16ms();
@@ -71,15 +71,28 @@ void os_timer_set_state(os_state_ten new_state)
 
 os_state_ten os_timer_handle_tasks()
 {
-	unsigned char task_type = 0;
-	while ((0 != task_indicator) && (task_type < task_max_e))
+	os_tasktype_ten task_type = task_2ms_e;
+	DWORD taskIdx = task_indicator;
+	if (0 != taskIdx)
 	{
-		if (IS_BIT_SET(task_type, task_indicator))
+		switch (taskIdx - (taskIdx & (taskIdx - 1))) 
 		{
-			os_timer_array_tasks[task_type]();
-			CLEAR_BIT(task_type, task_indicator);
+			case (1 << 0): 
+				task_type = task_2ms_e; 
+				break;
+			case (1 << 1): 
+				task_type = task_16ms_e; 
+				break;
+			case (1 << 2): 
+				task_type = task_64ms_e; 
+				break;
+			case (1 << 3): 
+				task_type = task_240ms_e; 
+				break;
+			default: break;
 		}
-		++task_type;
+		os_timer_array_tasks[task_type]();
+		CLEAR_BIT(task_type, task_indicator);
 	}
 	return os_normal_e;
 }
@@ -125,7 +138,7 @@ void SysTick_Handler()
 	{
 		if (0 != IS_BIT_SET(task_16ms_e, task_indicator)) /* only check for base task, other task no need to check */
 		{
-			error_code = err_runtime_task8ms_issue;
+			error_code = err_runtime_task16ms_issue;
 			os_timer_set_state(os_error_e);
 			return;
 		}
@@ -147,7 +160,7 @@ void SysTick_Handler()
 	{
 		if (0 != IS_BIT_SET(task_240ms_e, task_indicator)) /* only check for base task, other task no need to check */
 		{
-			error_code = err_runtime_task128ms_issue;
+			error_code = err_runtime_task240ms_issue;
 			os_timer_set_state(os_error_e);
 			return;
 		}
