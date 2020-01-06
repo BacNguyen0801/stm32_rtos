@@ -1,11 +1,11 @@
 #include "warning_indicator.h"
 #include "HAL_gpio_control.h"
 
-#define WI_INIT_THRESHOLD 10u /* 10 * 240 ms = 2400ms */
-#define WI_OFF_THRESHOLD 50u /* 50 * 240 ms = 6400ms = 6.4s */
+#define WI_INIT_THRESHOLD 50u /* 50 * 240 ms = 12000ms */
+#define WI_OFF_THRESHOLD 50u  /* 50 * 240 ms = 12000ms = 6.4s */
 
-
-typedef enum {
+typedef enum
+{
     wi_stt_init,
     wi_stt_off,
     wi_stt_idle,
@@ -16,36 +16,36 @@ static DWORD wi_stt_Counter = 0;
 
 void warning_indicator_run()
 {
-    switch(wi_stt_MainState)
+    switch (wi_stt_MainState)
     {
-        case wi_stt_init:
-            wi_stt_Counter++;
-            if(wi_stt_Counter > WI_INIT_THRESHOLD)
-            {
-                wi_stt_MainState = wi_stt_off;
-                wi_stt_Counter = 0;
-            }
-            else
-            {
-                /* code */
-                HAL_gpio_WITurnOn();
-            }
-            break;
-        case wi_stt_off:
-            wi_stt_Counter++;
-            if(wi_stt_Counter > WI_OFF_THRESHOLD)
-            {
-                wi_stt_MainState = wi_stt_idle;
-                wi_stt_Counter = 0;
-            }
-            else
-            {
-                /* code */
-                HAL_gpio_WITurnOff();
-            }
-            break;
-        case wi_stt_idle:
-            /* Do nothing */
-            break;
+    case wi_stt_init:
+        wi_stt_Counter++;
+        if (wi_stt_Counter > WI_INIT_THRESHOLD)
+        {
+            wi_stt_MainState = wi_stt_off;
+            wi_stt_Counter = 0;
+        }
+        else
+        {
+            /* code */
+            HAL_gpio_WITurnOn();
+        }
+        break;
+    case wi_stt_off:
+        wi_stt_Counter++;
+        if (wi_stt_Counter > WI_OFF_THRESHOLD)
+        {
+            wi_stt_MainState = wi_stt_idle;
+            wi_stt_Counter = 0;
+        }
+        else
+        {
+            /* code */
+            HAL_gpio_WITurnOff();
+        }
+        break;
+    case wi_stt_idle:
+        /* Do nothing */
+        break;
     }
 }
