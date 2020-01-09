@@ -6,7 +6,6 @@ Set by hardware to indicate that the PLL3 is locked.
 #define PLL3RDY_UNLOCKED 0x00
 #define PLL3RDY_LOCKED 0x01
 
-
 /* PLL3ON: PLL3 enable
 Set and cleared by software to enable PLL3.
 Cleared by hardware when entering Stop or Standby mode.
@@ -31,7 +30,7 @@ Cleared by hardware when entering Stop or Standby mode.
 #define PLL2ON_ON 0x01
 
 /* PLLRDY: PLL clock ready flag
-Set by hardware to indicate that the PLL2 is locked.
+Set by hardware to indicate that the PLL is locked.
 0: PLL unlocked
 1: PLL locked */
 #define PLLRDY_UNLOCKED 0x00
@@ -170,7 +169,6 @@ Caution: The PLL output frequency must not exceed 72 MHz.
 #define PLLMUL_MUL_15 0x0D
 #define PLLMUL_MUL_16 0x0E
 
-
 /* PLLXTPRE: HSE divider for PLL entry
 Set and cleared by software to divide HSE before PLL entry. This bit can be written only
 when PLL is disabled.
@@ -210,7 +208,6 @@ Set and cleared by software to control the division factor of the APB High speed
 #define PPRE2_HCLK_DIV_4 0x05
 #define PPRE2_HCLK_DIV_8 0x06
 #define PPRE2_HCLK_DIV_16 0x07
-
 
 /* PPRE1[2:0]: APB Low-speed prescaler (APB1)
 Set and cleared by software to control the division factor of the APB Low speed clock (PCLK1).
@@ -785,7 +782,6 @@ Set and cleared by software.
 #define TIM11EN_CLOCK_DISABLE 0x00
 #define TIM11EN_CLOCK_ENABLE 0x01
 
-
 /* Bit 20 TIM10EN: TIM10 timer clock enable
 Set and cleared by software.
 0: TIM10 timer clock disabled
@@ -1188,29 +1184,25 @@ Set and cleared by software.
 #define LSION_40KHZ_OFF 0x00
 #define LSION_40KHZ_ON 0x01
 
-#define RCC_BASE_ADDRESS (RCC_REG_MAP*)0x40021000
-static volatile RCC_REG_MAP* const stm32f1x_rcc_reg = RCC_BASE_ADDRESS;
+#define RCC_BASE_ADDRESS (RCC_REG_MAP *)0x40021000
+static volatile RCC_REG_MAP *const stm32f1x_rcc_reg = RCC_BASE_ADDRESS;
 
 void stm32f1x_rcc_driver_init()
 {
     stm32f1x_rcc_reg->CR_REG.HSION = HSION_8Mhz_INTERNAL_ON;
 
-    stm32f1x_rcc_reg->CFGR_REG.SW = SW_PLL_SELECTED;
-    stm32f1x_rcc_reg->CFGR_REG.HPRE = HPRE_SYSCLK_NOT_DIV;
-    stm32f1x_rcc_reg->CFGR_REG.PPRE1 = PPRE1_HCLK_NOT_DIV;
-    stm32f1x_rcc_reg->CFGR_REG.PPRE2 = PPRE2_HCLK_NOT_DIV;
-    stm32f1x_rcc_reg->CFGR_REG.ADCPRE = ADCPRE_PCLK_DIV_2;
-    stm32f1x_rcc_reg->CFGR_REG.MCO = MCO_NO_CLOCK_OUTPUT;
-
-    stm32f1x_rcc_reg->CR_REG.HSEON = HSEON_OSC_OFF;
-    stm32f1x_rcc_reg->CR_REG.CSSON = CSSON_CLOCK_DETECTOR_OFF;
-    stm32f1x_rcc_reg->CR_REG.PLLON = PLLON_OFF;
-    stm32f1x_rcc_reg->CR_REG.HSEBYP = HSEBYP_EXTERNAL_OSC_NOT_BYPASSED;
-
     stm32f1x_rcc_reg->CFGR_REG.PLLSRC = PLLSRC_HSE_CLOCK;
     stm32f1x_rcc_reg->CFGR_REG.PLLXTPRE = PLLXTPRE_NOT_DIV;
-    stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_9;
-    stm32f1x_rcc_reg->CFGR_REG.USBPRE = USBPRE_PLL_DIV;
+    stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_2;
+
+    stm32f1x_rcc_reg->CR_REG.HSEON = HSEON_OSC_ON;
+    stm32f1x_rcc_reg->CR_REG.PLLON = PLLON_ON;
+
+    stm32f1x_rcc_reg->CFGR_REG.SW = SW_PLL_SELECTED;
+    stm32f1x_rcc_reg->CFGR_REG.HPRE = HPRE_SYSCLK_NOT_DIV;
+    stm32f1x_rcc_reg->CFGR_REG.PPRE1 = PPRE1_HCLK_DIV_2;
+    stm32f1x_rcc_reg->CFGR_REG.PPRE2 = PPRE2_HCLK_NOT_DIV;
+    stm32f1x_rcc_reg->CFGR_REG.ADCPRE = ADCPRE_PCLK_DIV_2;
 
     stm32f1x_rcc_reg->CIR_REG.LSIRDYC = LSIRDYC_CLEAR_FLAG;
     stm32f1x_rcc_reg->CIR_REG.HSIRDYC = HSIRDYC_CLEAR_FLAG;
@@ -1219,4 +1211,5 @@ void stm32f1x_rcc_driver_init()
     stm32f1x_rcc_reg->CIR_REG.CSSC = CSSC_CLEAR_FLAG;
 
     stm32f1x_rcc_reg->APB2ENR_REG.IOPCEN = IOPCEN_CLOCK_ENABLE;
+    stm32f1x_rcc_reg->APB1ENR_REG.TIM6EN = TIM6EN_CLOCK_ENABLE;
 }

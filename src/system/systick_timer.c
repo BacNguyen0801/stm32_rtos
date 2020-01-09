@@ -1,4 +1,5 @@
 #include "systick_timer.h"
+#include "os_timer.h"
 
 /* Bit 2 CLKSOURCE: Clock source selection
 Selects the clock source.
@@ -33,11 +34,18 @@ activated when counting from 1 to 0. */
 #define RELOAD_VALUE 999 /* each 1000 clock pulse, generate interrupt to indicate 1ms */
 
 #define SYS_TICK_REG_BASE_ADDRESS (STK_REG_MAP*)0xE000E010
-static volatile STK_REG_MAP* systick_reg = SYS_TICK_REG_BASE_ADDRESS;
+static volatile STK_REG_MAP* stm32f1x_systick_reg = SYS_TICK_REG_BASE_ADDRESS;
 void systick_timer_init()
 {
-	systick_reg->LOAD_REG.RELOAD    = RELOAD_VALUE;
-    systick_reg->CTRL_REG.ENABLE    = COUNTER_ENABLE;
-    systick_reg->CTRL_REG.TICKINT   = TICKINT_ENABLE_IRQ;
-    systick_reg->CTRL_REG.CLKSOURCE = CLKSOURCE_ABH_DIV_1;
+	stm32f1x_systick_reg->LOAD_REG.RELOAD    = RELOAD_VALUE;
+    stm32f1x_systick_reg->CTRL_REG.ENABLE    = COUNTER_ENABLE;
+    stm32f1x_systick_reg->CTRL_REG.TICKINT   = TICKINT_ENABLE_IRQ;
+    stm32f1x_systick_reg->CTRL_REG.CLKSOURCE = CLKSOURCE_ABH_DIV_1;
+}
+
+void SysTick_Handler()
+{
+    /* Clear counter flag */
+    stm32f1x_systick_reg->CTRL_REG.COUNTFLAG = 0;
+    os_timer_sysTick_Handler();
 }

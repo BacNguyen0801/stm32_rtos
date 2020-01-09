@@ -254,8 +254,64 @@ typedef struct
 	ADV_TIM_DMAR_REG DMAR_REG;   /* TIMx_DMAR */
 } ADV_TIM_REG_MAP;
 
+typedef struct
+{
+	DWORD CEN : 1;		/* Counter enable */
+	DWORD UDIS : 1;		/* Update disable */
+	DWORD URS : 1;		/* Update request source */
+	DWORD OPM : 1;		/* One-pulse mode */
+	DWORD Reserved : 3; /* must be kept at reset value */
+	DWORD ARPE : 1;		/* Auto-reload preload enable */
+} TIMx_CR1_REG;
 
 typedef struct
 {
+	DWORD Reserved : 4; /* must be kept at reset value */
+	DWORD MMS : 3;		/* Master mode selection */
+} TIMx_CR2_REG;
 
+typedef struct
+{
+	DWORD UIE : 1;		/* Update interrupt enable */
+	DWORD Reserved : 7; /* must be kept at reset value */
+	DWORD UDE : 1;		/* Update DMA request enable */
+} TIMx_DIER_REG;
+
+typedef struct
+{
+	DWORD UIF : 1; /* Update interrupt flag */
+} TIMx_SR_REG;
+
+typedef struct
+{
+	DWORD UG : 1; /* Update generation */
+} TIMx_EGR_REG;
+
+typedef struct
+{
+	DWORD CNT : 16; /* Counter value */
+} TIMx_CNT_REG;
+
+typedef struct
+{
+	DWORD PSC : 16; /* Prescaler value */
+} TIMx_PSC_REG;
+
+typedef struct
+{
+	DWORD ARR : 16;	/* Auto - reload value */
+} TIMx_ARR_REG;
+
+typedef struct
+{
+	TIMx_CR1_REG CR1;
+	TIMx_CR2_REG CR2;
+	DWORD Padding;
+	TIMx_DIER_REG DIER;
+	TIMx_SR_REG SR;
+	TIMx_EGR_REG EGR;
+	DWORD Padding1[3];
+	TIMx_CNT_REG CNT;
+	TIMx_PSC_REG PSC;
+	TIMx_ARR_REG ARR;
 } BASIC_TIM_REG_MAP;

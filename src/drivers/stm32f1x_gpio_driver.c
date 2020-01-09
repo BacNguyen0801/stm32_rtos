@@ -211,101 +211,102 @@ Refer to Section 10.2.5: External interrupt/event line mapping
 #define GPIO_PORT_E_BASE_ADDRESS (GPIOx_REG_MAP *)0x40011800
 #define GPIO_PORT_F_BASE_ADDRESS (GPIOx_REG_MAP *)0x40011C00
 #define GPIO_PORT_G_BASE_ADDRESS (GPIOx_REG_MAP *)0x40011400
+#define AFIO_BASE_ADDRESS (AFIO_REG_MAP *)40010000
 
-static volatile GPIOx_REG_MAP *const gpio_a_reg = GPIO_PORT_A_BASE_ADDRESS;
-static volatile GPIOx_REG_MAP *const gpio_b_reg = GPIO_PORT_B_BASE_ADDRESS;
-static volatile GPIOx_REG_MAP *const gpio_c_reg = GPIO_PORT_C_BASE_ADDRESS;
-static volatile GPIOx_REG_MAP *const gpio_d_reg = GPIO_PORT_D_BASE_ADDRESS;
-static volatile GPIOx_REG_MAP *const gpio_e_reg = GPIO_PORT_E_BASE_ADDRESS;
-static volatile GPIOx_REG_MAP *const gpio_f_reg = GPIO_PORT_F_BASE_ADDRESS;
-static volatile GPIOx_REG_MAP *const gpio_g_reg = GPIO_PORT_G_BASE_ADDRESS;
-static volatile AFIO_REG_MAP *afio_reg;
+static volatile GPIOx_REG_MAP *const stm32f1x_gpio_a_reg = GPIO_PORT_A_BASE_ADDRESS;
+static volatile GPIOx_REG_MAP *const stm32f1x_gpio_b_reg = GPIO_PORT_B_BASE_ADDRESS;
+static volatile GPIOx_REG_MAP *const stm32f1x_gpio_c_reg = GPIO_PORT_C_BASE_ADDRESS;
+static volatile GPIOx_REG_MAP *const stm32f1x_gpio_d_reg = GPIO_PORT_D_BASE_ADDRESS;
+static volatile GPIOx_REG_MAP *const stm32f1x_gpio_e_reg = GPIO_PORT_E_BASE_ADDRESS;
+static volatile GPIOx_REG_MAP *const stm32f1x_gpio_f_reg = GPIO_PORT_F_BASE_ADDRESS;
+static volatile GPIOx_REG_MAP *const stm32f1x_gpio_g_reg = GPIO_PORT_G_BASE_ADDRESS;
+static volatile AFIO_REG_MAP *const stm32f1x_afio_reg = AFIO_BASE_ADDRESS;
 
-static GPIOx_REG_MAP *const gpio_reg_lst[GPIOx_PORT_NUM_MAX] = {
-	gpio_a_reg,
-	gpio_b_reg,
-	gpio_c_reg,
-	gpio_d_reg,
-	gpio_e_reg,
-	gpio_f_reg,
-	gpio_g_reg
+static GPIOx_REG_MAP *const stm32f1x_gpio_reg_lst[GPIOx_PORT_NUM_MAX] = {
+	stm32f1x_gpio_a_reg,
+	stm32f1x_gpio_b_reg,
+	stm32f1x_gpio_c_reg,
+	stm32f1x_gpio_d_reg,
+	stm32f1x_gpio_e_reg,
+	stm32f1x_gpio_f_reg,
+	stm32f1x_gpio_g_reg
 };
 
 void stm32f1x_gpio_driver_init()
 {
-	gpio_c_reg->CRL_REG.MODE0 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC0 */
-	gpio_c_reg->CRL_REG.CNF0 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRL_REG.MODE1 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC1 */
-	gpio_c_reg->CRL_REG.CNF1 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRL_REG.MODE2 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC2 */
-	gpio_c_reg->CRL_REG.CNF2 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRL_REG.MODE3 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC3 */
-	gpio_c_reg->CRL_REG.CNF3 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRL_REG.MODE4 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC4 */
-	gpio_c_reg->CRL_REG.CNF4 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRL_REG.MODE5 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC5 */
-	gpio_c_reg->CRL_REG.CNF5 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRL_REG.MODE6 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC6 */
-	gpio_c_reg->CRL_REG.CNF6 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRL_REG.MODE7 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC7 */
-	gpio_c_reg->CRL_REG.CNF7 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRH_REG.MODE8 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC8 */
-	gpio_c_reg->CRH_REG.CNF8 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRH_REG.MODE9 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC9 */
-	gpio_c_reg->CRH_REG.CNF9 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRH_REG.MODE10 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC10 */
-	gpio_c_reg->CRH_REG.CNF10 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRH_REG.MODE11 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC11 */
-	gpio_c_reg->CRH_REG.CNF11 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRH_REG.MODE12 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC12 */
-	gpio_c_reg->CRH_REG.CNF12 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRH_REG.MODE13 = GPIO_OUTPUT_FREQUENCY_2MHz;		/* Use frequency 2Mhz */
-	gpio_c_reg->CRH_REG.CNF13 = GPIO_OUTPUT_PUSH_PULL; 		/* Set output mode for PC13 */
-	gpio_c_reg->CRH_REG.MODE14 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC14 */
-	gpio_c_reg->CRH_REG.CNF14 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
-	gpio_c_reg->CRH_REG.MODE15 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC15 */
-	gpio_c_reg->CRH_REG.CNF15 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRL_REG.MODE0 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC0 */
+	stm32f1x_gpio_c_reg->CRL_REG.CNF0 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRL_REG.MODE1 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC1 */
+	stm32f1x_gpio_c_reg->CRL_REG.CNF1 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRL_REG.MODE2 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC2 */
+	stm32f1x_gpio_c_reg->CRL_REG.CNF2 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRL_REG.MODE3 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC3 */
+	stm32f1x_gpio_c_reg->CRL_REG.CNF3 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRL_REG.MODE4 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC4 */
+	stm32f1x_gpio_c_reg->CRL_REG.CNF4 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRL_REG.MODE5 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC5 */
+	stm32f1x_gpio_c_reg->CRL_REG.CNF5 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRL_REG.MODE6 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC6 */
+	stm32f1x_gpio_c_reg->CRL_REG.CNF6 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRL_REG.MODE7 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC7 */
+	stm32f1x_gpio_c_reg->CRL_REG.CNF7 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRH_REG.MODE8 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC8 */
+	stm32f1x_gpio_c_reg->CRH_REG.CNF8 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRH_REG.MODE9 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC9 */
+	stm32f1x_gpio_c_reg->CRH_REG.CNF9 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRH_REG.MODE10 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC10 */
+	stm32f1x_gpio_c_reg->CRH_REG.CNF10 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRH_REG.MODE11 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC11 */
+	stm32f1x_gpio_c_reg->CRH_REG.CNF11 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRH_REG.MODE12 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC12 */
+	stm32f1x_gpio_c_reg->CRH_REG.CNF12 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRH_REG.MODE13 = GPIO_OUTPUT_FREQUENCY_2MHz;		/* Use frequency 2Mhz */
+	stm32f1x_gpio_c_reg->CRH_REG.CNF13 = GPIO_OUTPUT_PUSH_PULL; 		/* Set output mode for PC13 */
+	stm32f1x_gpio_c_reg->CRH_REG.MODE14 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC14 */
+	stm32f1x_gpio_c_reg->CRH_REG.CNF14 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
+	stm32f1x_gpio_c_reg->CRH_REG.MODE15 = GPIO_INPUT_RESET_STATE;		/* Set input mode for PC15 */
+	stm32f1x_gpio_c_reg->CRH_REG.CNF15 = GPIO_INPUT_FLOATING_MODE; /* Use frequency GPIO_INPUT_FLOATING_MODE */
 }
 
 void stm32f1x_afio_driver_init()
 {
 	/* configure for alternate function of GPIO */
-	afio_reg->EVCR_REG.EVOE = 0; /* Disable Event output */
-	afio_reg->AFIO_MAPR_REG.SPI1_REMAP = ALT_SPI1_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.I2C1_REMAP = ALT_I2C1_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.USART1_REMAP = ALT_USART1_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.USART2_REMAP = ALT_USART2_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.USART3_REMAP = ALT_USART3_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.TIM1_REMAP = ALT_TIMER1_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.TIM2_REMAP = ALT_TIMER2_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.TIM3_REMAP = ALT_TIMER3_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.TIM4_REMAP = ALT_TIMER4_REMAP_DISABLE;
-	afio_reg->AFIO_MAPR_REG.CAN_REMAP = ALT_CAN_RX_TO_PD0_CAN_TX_TO_PD1;
-	afio_reg->AFIO_MAPR_REG.PD01_REMAP = ALT_PD0_PD1_NO_MAPPING;
-	afio_reg->AFIO_MAPR_REG.TIM5CH4_IREMAP = ALT_TIMER5_NO_REMAP;
-	afio_reg->AFIO_MAPR_REG.ADC1_ETRGREG_REMAP = ALT_ADC1_CONVERSION_MAPPING_TO_EXTI11;
-	afio_reg->AFIO_MAPR_REG.ADC1_ETRGINJ_REMAP = ALT_ADC1_TRIGGER_MAPPING_TO_EXTI15;
-	afio_reg->AFIO_MAPR_REG.ADC2_ETRGREG_REMAP = ALT_ADC2_CONVERSION_MAPPING_TO_TIM8_TRGO;
-	afio_reg->AFIO_MAPR_REG.ADC2_ETRGINJ_REMAP = ALT_ADC2_TRIGGER_MAPPING_TO_TIM8_CHANNEL4;
-	afio_reg->AFIO_MAPR_REG.SWJ_CFG = ALT_SWJ_CFG_FULL;
+	stm32f1x_afio_reg->EVCR_REG.EVOE = 0; /* Disable Event output */
+	stm32f1x_afio_reg->AFIO_MAPR_REG.SPI1_REMAP = ALT_SPI1_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.I2C1_REMAP = ALT_I2C1_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.USART1_REMAP = ALT_USART1_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.USART2_REMAP = ALT_USART2_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.USART3_REMAP = ALT_USART3_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.TIM1_REMAP = ALT_TIMER1_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.TIM2_REMAP = ALT_TIMER2_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.TIM3_REMAP = ALT_TIMER3_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.TIM4_REMAP = ALT_TIMER4_REMAP_DISABLE;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.CAN_REMAP = ALT_CAN_RX_TO_PD0_CAN_TX_TO_PD1;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.PD01_REMAP = ALT_PD0_PD1_NO_MAPPING;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.TIM5CH4_IREMAP = ALT_TIMER5_NO_REMAP;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.ADC1_ETRGREG_REMAP = ALT_ADC1_CONVERSION_MAPPING_TO_EXTI11;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.ADC1_ETRGINJ_REMAP = ALT_ADC1_TRIGGER_MAPPING_TO_EXTI15;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.ADC2_ETRGREG_REMAP = ALT_ADC2_CONVERSION_MAPPING_TO_TIM8_TRGO;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.ADC2_ETRGINJ_REMAP = ALT_ADC2_TRIGGER_MAPPING_TO_TIM8_CHANNEL4;
+	stm32f1x_afio_reg->AFIO_MAPR_REG.SWJ_CFG = ALT_SWJ_CFG_FULL;
 }
 
 void stm32f1x_gpio_TurnOn(BYTE Port, DWORD Pin)
 {
-	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
+	volatile GPIOx_REG_MAP *p = stm32f1x_gpio_reg_lst[Port];
 	p->BSRR_REG.BSRR |= Pin;
 }
 
 void stm32f1x_gpio_TurnOff(BYTE Port, DWORD Pin)
 {
-	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
+	volatile GPIOx_REG_MAP *p = stm32f1x_gpio_reg_lst[Port];
 	p->BSRR_REG.BSRR |= Pin << 16;
 }
 
 BYTE stm32f1x_gpio_GetValue(BYTE Port, DWORD Pin)
 {
 	BYTE ret = 0x00;
-	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
+	volatile GPIOx_REG_MAP *p = stm32f1x_gpio_reg_lst[Port];
 	ret = ((p->IDR_REG.IDR & Pin) == ret) ? ret : 0x01;
 	return ret;
 }
@@ -313,18 +314,18 @@ BYTE stm32f1x_gpio_GetValue(BYTE Port, DWORD Pin)
 DWORD stm32f1x_gpio_getPort(BYTE Port)
 {
 	DWORD ret;
-	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
+	volatile GPIOx_REG_MAP *p = stm32f1x_gpio_reg_lst[Port];
 	ret = p->IDR_REG.IDR;
 	return ret;
 }
 void stm32f1x_gpio_switchOffAll(BYTE Port)
 {
-	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
+	volatile GPIOx_REG_MAP *p = stm32f1x_gpio_reg_lst[Port];
 	p->BSRR_REG.BSRR = GPIOx_PIN_ALL << 16;
 }
 
 void stm32f1x_gpio_switchOnAll(BYTE Port)
 {
-	volatile GPIOx_REG_MAP *p = gpio_reg_lst[Port];
+	volatile GPIOx_REG_MAP *p = stm32f1x_gpio_reg_lst[Port];
 	p->BSRR_REG.BSRR = GPIOx_PIN_ALL;
 }
