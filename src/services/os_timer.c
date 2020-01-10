@@ -13,8 +13,8 @@ static ERROR_CODE error_code = err_runtime_no_issue;
 /* Private API declaration */
 static void os_timer_task_2ms();
 static void os_timer_task_16ms();
-static void os_timer_task_32ms();
-static void os_timer_task_240ms();
+static void os_timer_task_64ms();
+static void os_timer_task_128ms();
 static os_state_ten os_timer_handle_tasks();
 static os_state_ten os_timer_handle_error();
 /* End */
@@ -22,8 +22,8 @@ static os_state_ten os_timer_handle_error();
 static task_fp os_timer_array_tasks[NUM_TASK_DEF] = {
 	&os_timer_task_2ms,
 	&os_timer_task_16ms,
-	&os_timer_task_32ms,
-	&os_timer_task_240ms,
+	&os_timer_task_64ms,
+	&os_timer_task_128ms,
 };
 
 void os_timer_init()
@@ -81,7 +81,7 @@ static os_state_ten os_timer_handle_tasks()
 			task_type = task_64ms_e;
 			break;
 		case (1 << 3):
-			task_type = task_240ms_e;
+			task_type = task_128ms_e;
 			break;
 		default:
 			break;
@@ -110,7 +110,7 @@ static os_state_ten os_timer_handle_error()
 void os_timer_sysTick_Handler()
 {
 	os_timer_tick++;
-	if ((os_timer_tick & DEFINE_BASE_TASK_MODULO) == 0)
+	if ((os_timer_tick & DEFINE_2_TASK_MODULO) == 0)
 	{
 		if (0 != IS_BIT_SET(task_2ms_e, task_indicator)) /* only check for base task, other task no need to check */
 		{
@@ -119,7 +119,7 @@ void os_timer_sysTick_Handler()
 		SET_BIT(task_2ms_e, task_indicator);
 	}
 
-	if ((os_timer_tick & DEFINE_X8_TASK_MODULO) == 0)
+	if ((os_timer_tick & DEFINE_16_TASK_MODULO) == 0)
 	{
 		if (0 != IS_BIT_SET(task_16ms_e, task_indicator)) /* only check for base task, other task no need to check */
 		{
@@ -128,7 +128,7 @@ void os_timer_sysTick_Handler()
 		SET_BIT(task_16ms_e, task_indicator);
 	}
 
-	if ((os_timer_tick & DEFINE_X32_TASK_MODULO) == 0)
+	if ((os_timer_tick & DEFINE_64_TASK_MODULO) == 0)
 	{
 		if (0 != IS_BIT_SET(task_64ms_e, task_indicator)) /* only check for base task, other task no need to check */
 		{
@@ -137,13 +137,13 @@ void os_timer_sysTick_Handler()
 		SET_BIT(task_64ms_e, task_indicator);
 	}
 
-	if ((os_timer_tick & DEFINE_X128_TASK_MODULO) == 0)
+	if ((os_timer_tick & DEFINE_128_TASK_MODULO) == 0)
 	{
-		if (0 != IS_BIT_SET(task_240ms_e, task_indicator)) /* only check for base task, other task no need to check */
+		if (0 != IS_BIT_SET(task_128ms_e, task_indicator)) /* only check for base task, other task no need to check */
 		{
-			error_code = err_runtime_task240ms_issue;
+			error_code = err_runtime_task128ms_issue;
 		}
-		SET_BIT(task_240ms_e, task_indicator);
+		SET_BIT(task_128ms_e, task_indicator);
 	}
 }
 
@@ -156,12 +156,12 @@ static void os_timer_task_16ms()
 {
 	/* API run as BG 16ms */
 }
-static void os_timer_task_32ms()
+static void os_timer_task_64ms()
 {
-	/* API run as BG 332ms */
+	/* API run as BG 64ms */
 }
-static void os_timer_task_240ms()
+static void os_timer_task_128ms()
 {
-	/* API run as BG 240ms */
+	/* API run as BG 128 */
 	warning_indicator_run();
 }
