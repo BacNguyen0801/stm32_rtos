@@ -1,8 +1,8 @@
 #include "warning_indicator.h"
 #include "HAL_gpio_control.h"
 
-#define WI_INIT_THRESHOLD 50u /* 50 * 240 ms = 12000ms */
-#define WI_OFF_THRESHOLD 50u  /* 50 * 240 ms = 12000ms = 6.4s */
+#define WI_INIT_THRESHOLD 20u /* 20 * 240 ms = 4800ms */
+#define WI_OFF_THRESHOLD 20u  /* 20 * 240 ms = 4800ms = 4.8s */
 
 typedef enum
 {

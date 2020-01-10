@@ -31,16 +31,16 @@ Calculating the RELOAD value
 The RELOAD value can be any value in the range 0x00000001-0x00FFFFFF. A start value of
 0 is possible, but has no effect because the SysTick exception request and COUNTFLAG are
 activated when counting from 1 to 0. */
-#define RELOAD_VALUE 999 /* each 1000 clock pulse, generate interrupt to indicate 1ms */
+#define RELOAD_VALUE (72000 - 1)/* each 72000 clock pulse, generate interrupt to indicate 1ms */
 
 #define SYS_TICK_REG_BASE_ADDRESS (STK_REG_MAP*)0xE000E010
 static volatile STK_REG_MAP* stm32f1x_systick_reg = SYS_TICK_REG_BASE_ADDRESS;
 void systick_timer_init()
 {
 	stm32f1x_systick_reg->LOAD_REG.RELOAD    = RELOAD_VALUE;
-    stm32f1x_systick_reg->CTRL_REG.ENABLE    = COUNTER_ENABLE;
     stm32f1x_systick_reg->CTRL_REG.TICKINT   = TICKINT_ENABLE_IRQ;
     stm32f1x_systick_reg->CTRL_REG.CLKSOURCE = CLKSOURCE_ABH_DIV_1;
+    stm32f1x_systick_reg->CTRL_REG.ENABLE    = COUNTER_ENABLE;
 }
 
 void SysTick_Handler()

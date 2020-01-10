@@ -1,4 +1,5 @@
 #include "stm32f1x_rcc_driver.h"
+#include "stm32f1x_flash_driver.h"
 /* PLL3RDY: PLL3 clock ready flag
 Set by hardware to indicate that the PLL3 is locked.
 0: PLL3 unlocked
@@ -1198,12 +1199,13 @@ void stm32f1x_rcc_driver_init()
     stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_9;
     stm32f1x_rcc_reg->CR_REG.PLLON = PLLON_ON; 
     while(stm32f1x_rcc_reg->CR_REG.PLLRDY != PLLRDY_LOCKED); /* wait for PLL ready */
-    
-    stm32f1x_rcc_reg->CFGR_REG.SW = SW_PLL_SELECTED;
+
+    stm32f1x_flash_driver_changeLatency();
     stm32f1x_rcc_reg->CFGR_REG.HPRE = HPRE_SYSCLK_NOT_DIV;
+    stm32f1x_rcc_reg->CFGR_REG.SW = SW_PLL_SELECTED;
+    while(stm32f1x_rcc_reg->CFGR_REG.SWS != SWS_PLL_STS_SELECTED); /* wait for PLL switch completely */
     stm32f1x_rcc_reg->CFGR_REG.PPRE1 = PPRE1_HCLK_DIV_2;
     stm32f1x_rcc_reg->CFGR_REG.PPRE2 = PPRE2_HCLK_NOT_DIV;
-    stm32f1x_rcc_reg->CFGR_REG.ADCPRE = ADCPRE_PCLK_DIV_2;
 
     stm32f1x_rcc_reg->CIR_REG.LSIRDYC = LSIRDYC_CLEAR_FLAG;
     stm32f1x_rcc_reg->CIR_REG.HSIRDYC = HSIRDYC_CLEAR_FLAG;

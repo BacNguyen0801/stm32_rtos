@@ -18,7 +18,8 @@ SOURCE_FILES +=	\
 		src\drivers\stm32f1x_rtc_driver.c						\
 		src\drivers\stm32f1x_timer_driver.c						\
 		src\drivers\stm32f1x_usart_driver.c						\
-		src\drivers\stm32f1x_gpio_driver.c
+		src\drivers\stm32f1x_gpio_driver.c						\
+		src\drivers\stm32f1x_flash_driver.c						\
 
 
 
