@@ -1190,14 +1190,15 @@ static volatile RCC_REG_MAP *const stm32f1x_rcc_reg = RCC_BASE_ADDRESS;
 void stm32f1x_rcc_driver_init()
 {
     stm32f1x_rcc_reg->CR_REG.HSION = HSION_8Mhz_INTERNAL_ON;
+    stm32f1x_rcc_reg->CR_REG.HSEON = HSEON_OSC_ON;
+    while(stm32f1x_rcc_reg->CR_REG.HSERDY != HSERDY_HSE_READY); /* wait for HSE ready */
 
     stm32f1x_rcc_reg->CFGR_REG.PLLSRC = PLLSRC_HSE_CLOCK;
     stm32f1x_rcc_reg->CFGR_REG.PLLXTPRE = PLLXTPRE_NOT_DIV;
-    stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_2;
-
-    stm32f1x_rcc_reg->CR_REG.HSEON = HSEON_OSC_ON;
-    stm32f1x_rcc_reg->CR_REG.PLLON = PLLON_ON;
-
+    stm32f1x_rcc_reg->CFGR_REG.PLLMUL = PLLMUL_MUL_9;
+    stm32f1x_rcc_reg->CR_REG.PLLON = PLLON_ON; 
+    while(stm32f1x_rcc_reg->CR_REG.PLLRDY != PLLRDY_LOCKED); /* wait for PLL ready */
+    
     stm32f1x_rcc_reg->CFGR_REG.SW = SW_PLL_SELECTED;
     stm32f1x_rcc_reg->CFGR_REG.HPRE = HPRE_SYSCLK_NOT_DIV;
     stm32f1x_rcc_reg->CFGR_REG.PPRE1 = PPRE1_HCLK_DIV_2;
