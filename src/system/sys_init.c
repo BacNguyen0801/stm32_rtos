@@ -16,4 +16,5 @@ void HAL_system_init()
 	// stm32f1x_timer_driver_init(); /* initialize for generic timer */
 	stm32f1x_gpio_driver_init();  /* initialize for gpio driver */
 	// stm32f1x_afio_driver_init();  /* initialize for afio driver */
+	// stm32f1x_timer_driver_init(); /* Init internal timer */
 }

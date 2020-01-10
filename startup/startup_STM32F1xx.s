@@ -72,6 +72,12 @@ vector_table:
     .word 0
     .word 0
     .word 0
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+    .word TIM6IRQ_Handler
+    .word 0
     .word BootRAM
 
 .weak NMI_Handler
@@ -229,6 +235,9 @@ vector_table:
 
 .weak USBWakeUp_IRQHandler
 .thumb_set USBWakeUp_IRQHandler, Default_Handler
+
+.weak TIM6IRQ_Handler
+.thumb_set TIM6IRQ_Handler, Default_Handler
 
 .syntax unified
 

@@ -13,7 +13,6 @@ typedef enum {
 	os_init_e,		/* init state of os */
 	os_normal_e,	/* normal state cyclic */
 	os_idle_e,		/* no task active */
-	os_error_e		/* error handle state */
 } os_state_ten;
 typedef void (*task_fp)(void);
 typedef void (*interupt_handler_fp)(void);

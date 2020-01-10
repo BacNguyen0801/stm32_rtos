@@ -1,99 +1,92 @@
 #pragma once
 #include "base_types.h"
 
-typedef struct 
+typedef struct
 {
-	BYTE PE: 1; /*  Parity error */
-	BYTE FE: 1; /*  Framing error */
-	BYTE NE: 1; /*  Noise error flag */
-	BYTE ORE: 1; /*  Overrun error */
-	BYTE IDLE: 1; /*  IDLE line detected */
-	BYTE RXNE: 1; /*  Read data register not empty */
-	BYTE TC: 1; /*  Transmission complete */
-	BYTE TXE: 1; /*  Transmit data register empty */
-	BYTE LBD: 1; /*  LIN break detection flag */
-	BYTE CTS: 1; /*  CTS flag */
+	DWORD PE : 1;   /*  Parity error */
+	DWORD FE : 1;   /*  Framing error */
+	DWORD NE : 1;   /*  Noise error flag */
+	DWORD ORE : 1;  /*  Overrun error */
+	DWORD IDLE : 1; /*  IDLE line detected */
+	DWORD RXNE : 1; /*  Read data register not empty */
+	DWORD TC : 1;   /*  Transmission complete */
+	DWORD TXE : 1;  /*  Transmit data register empty */
+	DWORD LBD : 1;  /*  LIN break detection flag */
+	DWORD CTS : 1;  /*  CTS flag */
 } USART_SR_REG;
 
-typedef struct 
+typedef struct
 {
-	BYTE DR; /* Data value */
+	DWORD DR; /* Data value */
 } USART_DR_REG;
 
-typedef struct 
+typedef struct
 {
-	BYTE DIV_Fraction : 4; /* fraction of USARTDIV */
-	DWORD DIV_Mantissa: 12; /* mantissa of USARTDIV */
+	DWORD DIV_Fraction : 4;   /* fraction of USARTDIV */
+	DWORD DIV_Mantissa : 12; /* mantissa of USARTDIV */
 } USART_BRR_REG;
 
-typedef struct 
+typedef struct
 {
-	BYTE SBK: 1; /* Send break */
-	BYTE RWU: 1; /* Receiver wakeup */
-	BYTE RE: 1; /* Receiver enable */
-	BYTE TE: 1; /* Transmitter enable */
-	BYTE IDLEIE: 1; /* IDLE interrupt enable */
-	BYTE RXNEIE: 1; /* RXNE interrupt enable */
-	BYTE TCIE: 1; /* Transmission complete interrupt enable */
-	BYTE TXEIE: 1; /* TXE interrupt enable */
-	BYTE PEIE: 1; /* PE interrupt enable */
-	BYTE PS: 1; /* Parity selection */
-	BYTE PCE: 1; /* Parity control enable */
-	BYTE WAKE: 1; /* Wakeup method */
-	BYTE M: 1; /* Word length */
-	BYTE UE: 1; /* USART enable */
+	DWORD SBK : 1;	/* Send break */
+	DWORD RWU : 1;	/* Receiver wakeup */
+	DWORD RE : 1;	 /* Receiver enable */
+	DWORD TE : 1;	 /* Transmitter enable */
+	DWORD IDLEIE : 1; /* IDLE interrupt enable */
+	DWORD RXNEIE : 1; /* RXNE interrupt enable */
+	DWORD TCIE : 1;   /* Transmission complete interrupt enable */
+	DWORD TXEIE : 1;  /* TXE interrupt enable */
+	DWORD PEIE : 1;   /* PE interrupt enable */
+	DWORD PS : 1;	 /* Parity selection */
+	DWORD PCE : 1;	/* Parity control enable */
+	DWORD WAKE : 1;   /* Wakeup method */
+	DWORD M : 1;		 /* Word length */
+	DWORD UE : 1;	 /* USART enable */
 } USART_CR1_REG;
 
-typedef struct 
+typedef struct
 {
-	BYTE ADD: 4; /* Address of the USART node */
-	BYTE Reserved: 1; /* forced by hardware to 0. */
-	BYTE LBDL: 1; /* lin break detection length */
-	BYTE LBDIE: 1; /* LIN break detection interrupt enable */
-	BYTE Reserved_1: 1; /* forced by hardware to 0. */
-	BYTE LBCL: 1; /* Last bit clock pulse */
-	BYTE CPHA: 1; /* Clock phase */
-	BYTE CPOL: 1; /* Clock polarity */
-	BYTE CLKEN: 1; /* Clock enable */
-	BYTE STOP: 1; /* STOP bits */
-	BYTE LINEN: 1; /* LIN mode enable */
+	DWORD ADD : 4;		 /* Address of the USART node */
+	DWORD Reserved : 1;   /* forced by hardware to 0. */
+	DWORD LBDL : 1;		 /* lin break detection length */
+	DWORD LBDIE : 1;		 /* LIN break detection interrupt enable */
+	DWORD Reserved_1 : 1; /* forced by hardware to 0. */
+	DWORD LBCL : 1;		 /* Last bit clock pulse */
+	DWORD CPHA : 1;		 /* Clock phase */
+	DWORD CPOL : 1;		 /* Clock polarity */
+	DWORD CLKEN : 1;		 /* Clock enable */
+	DWORD STOP : 1;		 /* STOP bits */
+	DWORD LINEN : 1;		 /* LIN mode enable */
 } USART_CR2_REG;
 
 typedef struct
 {
-	BYTE EIE: 1; /*  Error interrupt enable */
-	BYTE IREN: 1; /*  IrDA mode enable */
-	BYTE IRLP: 1; /*  IrDA low-power */
-	BYTE HDSEL: 1; /*  Half-duplex selection */
-	BYTE NACK: 1; /*  Smartcard NACK enable */
-	BYTE SCEN: 1; /*  Smartcard mode enable */
-	BYTE DMAR: 1; /*  DMA enable receiver */
-	BYTE DMAT: 1; /*  DMA enable transmitter */
-	BYTE RTSE: 1; /*  RTS enable */
-	BYTE CTSE: 1; /*  CTS enable */
-	BYTE CTSIE: 1; /*  CTS interrupt enable */
+	DWORD EIE : 1;   /*  Error interrupt enable */
+	DWORD IREN : 1;  /*  IrDA mode enable */
+	DWORD IRLP : 1;  /*  IrDA low-power */
+	DWORD HDSEL : 1; /*  Half-duplex selection */
+	DWORD NACK : 1;  /*  Smartcard NACK enable */
+	DWORD SCEN : 1;  /*  Smartcard mode enable */
+	DWORD DMAR : 1;  /*  DMA enable receiver */
+	DWORD DMAT : 1;  /*  DMA enable transmitter */
+	DWORD RTSE : 1;  /*  RTS enable */
+	DWORD CTSE : 1;  /*  CTS enable */
+	DWORD CTSIE : 1; /*  CTS interrupt enable */
 } USART_CR3_REG;
 
-
-typedef struct 
+typedef struct
 {
-	BYTE GT; /* Guard time value */
-	BYTE PSC; /* Prescaler value */
+	DWORD GT;  /* Guard time value */
+	DWORD PSC; /* Prescaler value */
 } USART_GTPR_REG;
 
 typedef struct
 {
-	USART_SR_REG SR_REG; 	/* USART_SR */
-	BYTE 	Reserved_0[2]; /* Reserved */
-	USART_DR_REG DR_REG; 	/* USART_DR */
-	BYTE 	Reserved_1[2]; /* Reserved */
-	USART_BRR_REG BRR_REG; /* USART_BRR */
-	BYTE 	Reserved_2[2]; /* Reserved */
-	USART_CR1_REG 	CR1_REG; /* USART_CR1 */
-	BYTE 	Reserved_3[2]; /* Reserved */
-	USART_CR2_REG 	CR2_REG; /* USART_CR2 */
-	BYTE 	Reserved_4[2]; /* Reserved */
-	USART_CR3_REG 	CR3_REG; /* USART_CR3 */
-	BYTE 	Reserved_5[2]; /* Reserved */
+	USART_SR_REG SR_REG;	 /* USART_SR */
+	USART_DR_REG DR_REG;	 /* USART_DR */
+	USART_BRR_REG BRR_REG;   /* USART_BRR */
+	USART_CR1_REG CR1_REG;   /* USART_CR1 */
+	USART_CR2_REG CR2_REG;   /* USART_CR2 */
+	USART_CR3_REG CR3_REG;   /* USART_CR3 */
 	USART_GTPR_REG GTPR_REG; /* USART_GTPR */
 } USART_REG_MAP;

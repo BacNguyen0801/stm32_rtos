@@ -14,7 +14,6 @@ typedef struct {
 	DWORD Reserved_1: 4; /* Reserved, must be kept at reset value.  */
 	DWORD PLLON: 1; /* PLL enable */
 	DWORD PLLRDY: 1; /* PLL clock ready flag */
-	DWORD Reserved: 6; /* Reserved, must be kept at reset value. */
 } RCC_CR_REG;
 
 typedef struct {
@@ -28,8 +27,8 @@ typedef struct {
 	DWORD PLLXTPRE: 1; /* HSE divider for PLL entry */
 	DWORD PLLMUL: 4; /* PLL multiplication factor */
 	DWORD USBPRE: 1; /* USB prescaler */
+	DWORD Reserved_1: 1; /* Reserved, must be kept at reset value.  */
 	DWORD MCO: 3; /* Microcontroller clock output */
-	DWORD Reserved: 5; /* Reserved, must be kept at reset value. */
 } RCC_CFGR_REG;
 
 typedef struct 
@@ -48,12 +47,12 @@ typedef struct
 	DWORD PLLRDYIE: 1; /* PLL ready interrupt enable */
 	DWORD Reserved_2: 3; /* Reserved, must be kept at reset value. */
 	DWORD LSIRDYC: 1; /* LSI ready interrupt clear */
+	DWORD LSERDYC:1; /* LSE ready interrupt clear */
 	DWORD HSIRDYC: 1; /* LSERDYC: LSE ready interrupt clear */
 	DWORD HSERDYC: 1; /* HSE ready interrupt clear */
 	DWORD PLLRDYC: 1; /* PLL ready interrupt clear */
 	DWORD Reserved_1: 2; /* Reserved, must be kept at reset value. */
 	DWORD CSSC: 1; /* Clock security system interrupt clear */
-	DWORD Reserved: 8; /* Reserved, must be kept at reset value. */
 } RCC_CIR_REG;
 
 typedef struct {
@@ -185,7 +184,7 @@ typedef struct
 	DWORD LSERDY: 1; /* External low-speed oscillator ready */
 	DWORD LSEBYP: 1; /* External low-speed oscillator bypass */
 	DWORD Reserved: 5; /* must be kept at reset value. */
-	DWORD RTCSEL: 1; /* RTC clock source selection */
+	DWORD RTCSEL: 2; /* RTC clock source selection */
 	DWORD Reserved_1: 5; /* must be kept at reset value. */
 	DWORD RTCEN: 1; /* RTC clock enable */
 	DWORD BDRST: 1; /* Backup domain software reset */
@@ -194,9 +193,7 @@ typedef struct
 typedef struct {
 	DWORD LSION: 1; /* Internal low-speed oscillator enable */
 	DWORD LSIRDY: 1; /* Internal low-speed oscillator ready */
-	DWORD Reserved: 6; /* must be kept at reset value. */
-	DWORD Reserved_1: 8; /* must be kept at reset value. */
-	DWORD Reserved_2: 8; /* must be kept at reset value. */
+	DWORD Reserved: 22; /* must be kept at reset value. */
 	DWORD RMVF: 1; /* Remove reset flag */
 	DWORD Reserved_3: 1; /* must be kept at reset value. */
 	DWORD PINRSTF: 1; /* PIN reset flag */
@@ -206,24 +203,6 @@ typedef struct {
 	DWORD WWDGRSTF: 1; /* Window watchdog reset flag */
 	DWORD LPWRRSTF: 1; /* Low-power reset flag */
 } RCC_CSR_REG;
-
-typedef struct {
-	DWORD Reserved_0; /*  must be kept at reset value. */
-	DWORD Reserved_1: 3; /*  must be kept at reset value. */
-	DWORD OTGFSRST; /* USB OTG FS reset */
-	DWORD Reserved_2: 1; /*  must be kept at reset value. */
-	DWORD ETHMACRST; /* Ethernet MAC reset */
-} RCC_AHBRSTR_REG;
-
-typedef struct {
-	DWORD PREDIV1: 4; /* PREDIV1 division factor */
-	DWORD PREDIV2: 4; /* PREDIV2 division factor */
-	DWORD PLL2MUL: 4; /* PLL2 Multiplication Factor */
-	DWORD PLL3MUL: 4; /* PLL3 Multiplication Factor */
-	DWORD PREDIV1SRC:1; /* PREDIV1 entry clock source */
-	DWORD I2S2SRC:1; /* I2S2 clock source */
-	DWORD I2S3SRC:1; /* I2S3 clock source */
-} RCC_CFGR2_REG;
 
 typedef struct
 {
@@ -237,8 +216,6 @@ typedef struct
 	RCC_APB1ENR_REG 	APB1ENR_REG; /* RCC_APB1ENR */
 	RCC_BDCR_REG 		BDCR_REG; /* RCC_BDCR */
 	RCC_CSR_REG 		CSR_REG; /* RCC_CSR */
-	RCC_AHBRSTR_REG		AHBRSTR_REG; /* RCC_AHBRSTR_REG */
-	RCC_CFGR2_REG		CFGR2_REG; /* RCC_CFGR2_REG */
 }  RCC_REG_MAP;
 
 
