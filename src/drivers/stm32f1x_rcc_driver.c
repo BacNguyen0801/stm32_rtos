@@ -1,5 +1,6 @@
 #include "stm32f1x_rcc_driver.h"
 #include "stm32f1x_flash_driver.h"
+
 /* PLL3RDY: PLL3 clock ready flag
 Set by hardware to indicate that the PLL3 is locked.
 0: PLL3 unlocked
@@ -1214,5 +1215,15 @@ void stm32f1x_rcc_driver_init()
     stm32f1x_rcc_reg->CIR_REG.CSSC = CSSC_CLEAR_FLAG;
 
     stm32f1x_rcc_reg->APB2ENR_REG.IOPCEN = IOPCEN_CLOCK_ENABLE;
-    stm32f1x_rcc_reg->APB1ENR_REG.TIM6EN = TIM6EN_CLOCK_ENABLE;
+
+    /* Setup for RTC clock */
+    stm32f1x_rcc_reg->APB1ENR_REG.PWREN = PWREN_CLOCK_ENABLE; /* activate power domain */
+    stm32f1x_power_driver_enableWrite();
+
+    stm32f1x_rcc_reg->BDCR_REG.RTCSEL = RTCSEL_HSE_SELECTED;
+    stm32f1x_rcc_reg->BDCR_REG.RTCEN = RTCEN_CLOCK_ENABLE;
+    stm32f1x_rcc_reg->APB1ENR_REG.PWREN = PWREN_CLOCK_DISABLE; /* deactivate power domain */
+
+    // stm32f1x_rcc_reg->BDCR_REG.BDRST = BDRST_RESET_ENTIRE_BK_DOMAIN;
+    // stm32f1x_rcc_reg->BDCR_REG.BDRST = BDRST_RESET_NOT_ACTIVE;
 }

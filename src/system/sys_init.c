@@ -12,9 +12,6 @@
 void HAL_system_init()
 {
 	stm32f1x_rcc_driver_init();   /* initilize for system clock */
-	// stm32f1x_rtc_driver_init();   /* initialize for realtime clock */
-	// stm32f1x_timer_driver_init(); /* initialize for generic timer */
+	stm32f1x_rtc_driver_init();   /* initialize for realtime clock */
 	stm32f1x_gpio_driver_init();  /* initialize for gpio driver */
-	// stm32f1x_afio_driver_init();  /* initialize for afio driver */
-	// stm32f1x_timer_driver_init(); /* Init internal timer */
 }

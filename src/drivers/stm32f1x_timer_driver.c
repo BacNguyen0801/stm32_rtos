@@ -142,11 +142,4 @@ void TIM6IRQ_Handler()
 {
     /* Clear interrupt flag */
     stm32f1x_reg_tim6->SR.UIF = UIF_NO_UPDATE;
-
-    stm32f1x_tim6_counter++;
-}
-
-DWORD stm32f1x_timer_get_tick()
-{
-    return stm32f1x_tim6_counter;
 }
