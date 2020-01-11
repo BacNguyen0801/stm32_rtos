@@ -14,8 +14,6 @@ typedef enum
 
 static wi_state wi_stt_MainState = wi_stt_init;
 static DWORD wi_stt_Counter = 0;
-volatile  DWORD wi_timer0 = 0;
-volatile DWORD wi_timer1 = 0;
 
 void warning_indicator_run()
 {
@@ -32,7 +30,6 @@ void warning_indicator_run()
         {
             /* code */
             HAL_gpio_turnWLOn();
-            wi_timer0 = HAL_tim_getTickCnt();
         }
         break;
     case wi_stt_off:
@@ -46,7 +43,6 @@ void warning_indicator_run()
         {
             /* code */
             HAL_gpio_turnWLOff();
-            wi_timer1 = HAL_tim_getTickCnt();
         }
         break;
     case wi_stt_idle:
