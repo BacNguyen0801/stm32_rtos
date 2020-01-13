@@ -80,7 +80,7 @@ $(BUILD_FOLDER):
 	$(MKDIR) $(OBJECT_FOLDER) $(BIN_FOLDER)
 
 clean:
-	$(RM) $(BUILD_FOLDER)
+	if exist $(BUILD_FOLDER) $(RM) $(BUILD_FOLDER)
 
 distclean: clean
 
