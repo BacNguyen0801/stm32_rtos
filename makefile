@@ -18,14 +18,14 @@ CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -D STM32F103xB
 
-BUILD_FOLDER		= build
-OBJECT_FOLDER 		= build\obj
+BUILD_FOLDER		= .\build
+OBJECT_FOLDER 		= .\build\obj
 BIN_FOLDER 			= build\bin
-SOURCE_FOLDER 		= src
-SOURCE_FILES 		= src\main.c
+SOURCE_FOLDER 		= .\src
+SOURCE_FILES 		= .\src\main.c
 BASE_LINKER 		= linker
 BASE_STARTUP		= startup
-STARTUP_CODE 		= src\startup
+STARTUP_CODE 		= .\src\startup
 include $(SOURCE_FOLDER)\\source.mk
 
 
