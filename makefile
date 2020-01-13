@@ -5,7 +5,7 @@ CC_DBG 	= arm-none-eabi-gdb
 CC_COPY = arm-none-eabi-objcopy
 ECHO 	= echo
 RM 		= rmdir /s /q
-MKDIR 	= mkdir
+MKDIR 	= mkdir -p
 
 # Define serial mC
 SERIES_CPU  = cortex-m3
