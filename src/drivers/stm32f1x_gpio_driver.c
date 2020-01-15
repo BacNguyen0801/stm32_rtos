@@ -222,7 +222,7 @@ static volatile GPIOx_REG_MAP *const stm32f1x_gpio_f_reg = GPIO_PORT_F_BASE_ADDR
 static volatile GPIOx_REG_MAP *const stm32f1x_gpio_g_reg = GPIO_PORT_G_BASE_ADDRESS;
 static volatile AFIO_REG_MAP *const stm32f1x_afio_reg = AFIO_BASE_ADDRESS;
 
-static GPIOx_REG_MAP *const stm32f1x_gpio_reg_lst[GPIOx_PORT_NUM_MAX] = {
+static volatile GPIOx_REG_MAP *const stm32f1x_gpio_reg_lst[GPIOx_PORT_NUM_MAX] = {
 	stm32f1x_gpio_a_reg,
 	stm32f1x_gpio_b_reg,
 	stm32f1x_gpio_c_reg,

@@ -113,8 +113,8 @@ The counter is blocked while the auto-reload value is null. */
 #define TIME7_BASE_ADDRESS (BASIC_TIM_REG_MAP *)0x40001400
 #define TIME8_BASE_ADDRESS (ADV_TIM_REG_MAP *)0x40013400
 
-static volatile ADV_TIM_REG_MAP *const stm32f1x_reg_tim1 = TIME1_BASE_ADDRESS;
-static volatile ADV_TIM_REG_MAP *const stm32f1x_reg_tim8 = TIME8_BASE_ADDRESS;
+// static volatile ADV_TIM_REG_MAP *const stm32f1x_reg_tim1 = TIME1_BASE_ADDRESS;
+// static volatile ADV_TIM_REG_MAP *const stm32f1x_reg_tim8 = TIME8_BASE_ADDRESS;
 static volatile BASIC_TIM_REG_MAP *const stm32f1x_reg_tim6 = TIME6_BASE_ADDRESS;
 
 static volatile DWORD stm32f1x_tim6_counter = 0;

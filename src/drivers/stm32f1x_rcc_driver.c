@@ -1,5 +1,6 @@
 #include "stm32f1x_rcc_driver.h"
 #include "stm32f1x_flash_driver.h"
+#include "stm32f1x_power_driver.h"
 
 /* PLL3RDY: PLL3 clock ready flag
 Set by hardware to indicate that the PLL3 is locked.
@@ -1215,6 +1216,7 @@ void stm32f1x_rcc_driver_init()
     stm32f1x_rcc_reg->CIR_REG.CSSC = CSSC_CLEAR_FLAG;
 
     stm32f1x_rcc_reg->APB2ENR_REG.IOPCEN = IOPCEN_CLOCK_ENABLE;
+    stm32f1x_rcc_reg->APB2ENR_REG.USART1EN = USART1EN_CLOCK_ENABLE;
 
     /* Setup for RTC clock */
     stm32f1x_rcc_reg->APB1ENR_REG.PWREN = PWREN_CLOCK_ENABLE; /* activate power domain */

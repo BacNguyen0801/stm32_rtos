@@ -16,7 +16,7 @@ static void os_timer_task_16ms();
 static void os_timer_task_64ms();
 static void os_timer_task_128ms();
 static os_state_ten os_timer_handle_tasks();
-static os_state_ten os_timer_handle_error();
+// static os_state_ten os_timer_handle_error();
 /* End */
 
 static task_fp os_timer_array_tasks[NUM_TASK_DEF] = {
@@ -92,20 +92,20 @@ static os_state_ten os_timer_handle_tasks()
 	return os_normal_e;
 }
 
-static os_state_ten os_timer_handle_error()
-{
-	os_state_ten ret = os_normal_e;
-	sys_sta_report_error(os_timer_e, error_code);
-	switch (error_code)
-	{
-	default:
-	{
-		/* code never touch here */
-		break;
-	}
-	}
-	return ret;
-}
+// static os_state_ten os_timer_handle_error()
+// {
+// 	os_state_ten ret = os_normal_e;
+// 	sys_sta_report_error(os_timer_e, error_code);
+// 	switch (error_code)
+// 	{
+// 	default:
+// 	{
+// 		/* code never touch here */
+// 		break;
+// 	}
+// 	}
+// 	return ret;
+// }
 
 void os_timer_sysTick_Handler()
 {

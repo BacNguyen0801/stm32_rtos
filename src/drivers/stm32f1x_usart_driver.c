@@ -142,12 +142,12 @@ This bit is set and cleared by software.
 1: A USART interrupt is generated whenever TC=1 in the USART_SR register */
 #define TRANSMISSION_INTERRUPT_DISABLE 0x00
 #define TRANSMISSION_INTERRUPT_ENABLE 0x01
-/* XNE interrupt enable
+/* RXNE interrupt enable
 This bit is set and cleared by software.
 0: Interrupt is inhibited
 1: A USART interrupt is generated whenever ORE=1 or RXNE=1 in the USART_SR register */
-#define XNE_INTERRUPT_DISABLE 0x00
-#define XNE_INTERRUPT_ENABLE 0x01
+#define RXNE_INTERRUPT_DISABLE 0x00
+#define RXNE_INTERRUPT_ENABLE 0x01
 /* IDLE interrupt enable
 This bit is set and cleared by software.
 0: Interrupt is inhibited
@@ -183,11 +183,13 @@ be set by software, and will be reset by hardware during the stop bit of break.
 /* LIN mode enable */
 #define LIN_ENABLE_VALUE 0x01
 #define LIN_DISABLE_VALUE 0x00
+
 /* STOP bits */
 #define STOP_BIT_ONE_BIT 0x00
 #define STOP_BIT_HALF_BIT 0x01
 #define STOP_BIT_TWO_BIT 0x02
 #define STOP_BIT_ONE_HALF_BIT 0x03
+
 /* Clock enable */
 #define CLOCK_ENABLE_VALUE 0x01
 #define CLOCK_DISABLE_VALUE 0x00
@@ -295,39 +297,57 @@ value. */
 #define PRECASLER_VALUE_DAFAULT 0x01
 
 /* DIV_Mantissa[11:0]: mantissa of USARTDIV */
-#define DIV_MANTISSA_VALUE 0x0000
+#define DIV_MANTISSA_VALUE 0x27
 /* DIV_Fraction[3:0]: fraction of USARTDIV */
-#define DIV_FRACTION_VALUE 0x00
+#define DIV_FRACTION_VALUE 0x0A
 
-volatile USART_REG_MAP usart_reg;
+#define USART1_BASE_ADDRESS (USART_REG_MAP*) 0x40013800
+
+static volatile USART_REG_MAP* stm32f1x_usart1_reg = USART1_BASE_ADDRESS;
 
 void stm32f1x_usart_driver_init()
 {
 	/* Init USART_CR1 */
-	usart_reg.CR1_REG.UE = ENABLE_USART;		   /* Enable USART */
-	usart_reg.CR1_REG.M = WORD_LENGTH_8BIT_DATA;   /* Use 8bit data */
-	usart_reg.CR1_REG.WAKE = WAKE_UP_BY_IDLE_LINE; /* Wake up by idle line */
-	usart_reg.CR1_REG.PCE = PARITY_CONTROL_ENABLE; /* Enable Parity control */
-	usart_reg.CR1_REG.PS = PAPITY_SELECTION_EVEN;  /* Use Even parity */
-	usart_reg.CR1_REG.PEIE = PE_INTERRUPT_DISABLE; /* Disable interrupt Parity error */
+	stm32f1x_usart1_reg->CR1_REG.UE = ENABLE_USART;		   /* Enable USART */
+	stm32f1x_usart1_reg->CR1_REG.M = WORD_LENGTH_8BIT_DATA;   /* Use 8bit data */
+	stm32f1x_usart1_reg->CR1_REG.WAKE = WAKE_UP_BY_IDLE_LINE; /* Wake up by idle line */
+	stm32f1x_usart1_reg->CR1_REG.PCE = PARITY_CONTROL_ENABLE; /* Enable Parity control */
+	stm32f1x_usart1_reg->CR1_REG.PS = PAPITY_SELECTION_EVEN;  /* Use Even parity */
+	stm32f1x_usart1_reg->CR1_REG.PEIE = PE_INTERRUPT_DISABLE; /* Disable interrupt Parity error */
+	stm32f1x_usart1_reg->CR1_REG.TXEIE = TXE_INTERRUPT_ENABLE; /* Tx empty interrupt */
+	stm32f1x_usart1_reg->CR1_REG.TCIE = TRANSMISSION_INTERRUPT_ENABLE; /* enable transmission completion interrupt(confirmation) */
+	stm32f1x_usart1_reg->CR1_REG.RXNEIE = RXNE_INTERRUPT_ENABLE;
+	stm32f1x_usart1_reg->CR1_REG.TE = TRANSMITTER_DISABLE; /* Disable writing data */
+	stm32f1x_usart1_reg->CR1_REG.RE = RECEIVER_DISABLE; /* Disable receive data */
+	stm32f1x_usart1_reg->CR1_REG.RWU = RECEIVER_IS_ACTIVE;
+	stm32f1x_usart1_reg->CR1_REG.SBK = BREAK_CHAR_IS_NOT_TRANSMITTED; 
+
 
 	/* Init CR2_REG */
-	usart_reg.CR2_REG.LINEN = LIN_DISABLE_VALUE;			 /* Disable LIN */
-	usart_reg.CR2_REG.STOP = LIN_DISABLE_VALUE;				 /* Disable LIN */
-	usart_reg.CR2_REG.CLKEN = CLOCK_DISABLE_VALUE;			 /* Using asynchonous mode */
-	usart_reg.CR2_REG.CPOL = CLOCK_STEADY_LOW_VALUE;		 /* Default 0 */
-	usart_reg.CR2_REG.CPHA = CLOCK_FIRST_TRANSITION_CAPTURE; /* Default 0 */
+	stm32f1x_usart1_reg->CR2_REG.LINEN = LIN_DISABLE_VALUE;			 /* Disable LIN */
+	stm32f1x_usart1_reg->CR2_REG.STOP = STOP_BIT_ONE_BIT;				 /* Disable LIN */
+	stm32f1x_usart1_reg->CR2_REG.CLKEN = CLOCK_DISABLE_VALUE;			 /* Using asynchonous mode */
+	stm32f1x_usart1_reg->CR2_REG.CPOL = CLOCK_STEADY_LOW_VALUE;		 /* Default 0 */
+	stm32f1x_usart1_reg->CR2_REG.CPHA = CLOCK_FIRST_TRANSITION_CAPTURE; /* Default 0 */
 
 	/* Init CR3_REG */
-	usart_reg.CR3_REG.SCEN = SMART_CARD_MODE_DISABLE_VALUE; /* Disable Smart card mode */
-	usart_reg.CR3_REG.IREN = IrDA_DISABLE;					/* IrDA mode disable */
-	usart_reg.CR3_REG.HDSEL = HALP_DUPLEX_SELECTION;		/* Half-duplex selection */
+	stm32f1x_usart1_reg->CR3_REG.SCEN = SMART_CARD_MODE_DISABLE_VALUE; /* Disable Smart card mode */
+	stm32f1x_usart1_reg->CR3_REG.IREN = IrDA_DISABLE;					/* IrDA mode disable */
+	stm32f1x_usart1_reg->CR3_REG.HDSEL = HALP_DUPLEX_DESELECTION;		/* Half-duplex selection */
 
 	/* Baurdrate configuration */
-	usart_reg.BRR_REG.DIV_Mantissa = DIV_MANTISSA_VALUE;
-	usart_reg.BRR_REG.DIV_Fraction = DIV_FRACTION_VALUE;
+	stm32f1x_usart1_reg->BRR_REG.DIV_Mantissa = DIV_MANTISSA_VALUE;
+	stm32f1x_usart1_reg->BRR_REG.DIV_Fraction = DIV_FRACTION_VALUE;
+	stm32f1x_usart1_reg->CR1_REG.RE = RECEIVER_ENABLE; /* Disable receive data */
 }
 
 void stm32f1x_usart_driver_write(BYTE data)
 {
+	stm32f1x_usart1_reg->DR_REG.DR = data;
+}
+
+
+void USART1_IRQHandler()
+{
+	
 }

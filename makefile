@@ -14,7 +14,7 @@ SERIES_ARCH = armv7-m
 CFLAGS += -ffunction-sections
 CFLAGS += -fdata-sections
 CFLAGS += -fno-strict-aliasing
-CFLAGS += -Wall
+CFLAGS += -Wall -Werror
 CFLAGS += -Wextra
 CFLAGS += -D STM32F103xB
 
