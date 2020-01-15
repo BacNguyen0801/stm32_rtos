@@ -11,5 +11,7 @@ jobs:
     - uses: actions/checkout@master
     - name: make clean
       run: make clean
+      shell: cmd
     - name: make all
       run: make all
+      shell: cmd
