@@ -301,9 +301,24 @@ value. */
 /* DIV_Fraction[3:0]: fraction of USARTDIV */
 #define DIV_FRACTION_VALUE 0x0A
 
-#define USART1_BASE_ADDRESS (USART_REG_MAP*) 0x40013800
+/*-------------------------*/
+/*  PDI region definition  */
+/*-------------------------*/
+static void stm32f1x_usart_driver_handleRxIRQ();
+static void stm32f1x_usart_driver_handleTxIRQ();
+static void stm32f1x_usart_driver_handleErrIRQ();
+/* end region */
 
+typedef enum  
+{
+	stm32f1_usart_TxInit_e,
+	stm32f1_usart_TxWaiting_e
+} stm32f1_usart_TxState_ten;
+
+#define USART1_BASE_ADDRESS (USART_REG_MAP*) 0x40013800
 static volatile USART_REG_MAP* stm32f1x_usart1_reg = USART1_BASE_ADDRESS;
+
+static stm32f1_usart_TxState_ten stm32f1_usart1_TxStt_en = stm32f1_usart_TxInit_e;
 
 void stm32f1x_usart_driver_init()
 {
@@ -341,13 +356,65 @@ void stm32f1x_usart_driver_init()
 	stm32f1x_usart1_reg->CR1_REG.RE = RECEIVER_ENABLE; /* Disable receive data */
 }
 
-void stm32f1x_usart_driver_write(BYTE data)
+ErrorCode stm32f1x_usart_driver_write(BYTE data)
 {
-	stm32f1x_usart1_reg->DR_REG.DR = data;
+	ErrorCode Ret = R_PEND;
+	switch (stm32f1_usart1_TxStt_en)
+	{
+	case stm32f1_usart_TxInit_e/* constant-expression */:
+		/* code */
+			if(stm32f1x_usart1_reg->SR_REG.TXE == DATA_IS_TRANSFERRED)
+			{
+				stm32f1x_usart1_reg->DR_REG.DR = data; /* register data is empty */
+				stm32f1_usart1_TxStt_en = stm32f1_usart_TxWaiting_e;
+				stm32f1x_usart1_reg->CR1_REG.TE = TRANSMITTER_ENABLE;
+			}
+			else
+			{
+				/* code */
+				Ret = R_BUSY;
+			}
+			
+		break;
+	case stm32f1_usart_TxWaiting_e:
+		if(stm32f1x_usart1_reg->SR_REG.TXE != DATA_IS_TRANSFERRED)
+		{
+			stm32f1x_usart1_reg->CR1_REG.TE = TRANSMITTER_DISABLE;
+			stm32f1_usart1_TxStt_en = stm32f1_usart_TxInit_e;
+			Ret = R_OK; /* write completely */
+		}
+	
+	default:
+		break;
+	}
+
+	return Ret;
+}
+
+static void stm32f1x_usart_driver_handleRxIRQ()
+{
+
+}
+
+static void stm32f1x_usart_driver_handleTxIRQ()
+{
+
+}
+
+static void stm32f1x_usart_driver_handleErrIRQ()
+{
+
 }
 
 
 void USART1_IRQHandler()
 {
-	
+	if(stm32f1x_usart1_reg->SR_REG.TC == DATA_TRANSMISSION_IS_COMPLTETE)
+	{
+		stm32f1x_usart1_reg->SR_REG.TC = DATA_TRANSMISSION_IS_NOT_COMPLETE;
+		stm32f1x_usart_driver_handleTxIRQ();
+	}
+
+	stm32f1x_usart_driver_handleRxIRQ();
+	stm32f1x_usart_driver_handleErrIRQ();
 }

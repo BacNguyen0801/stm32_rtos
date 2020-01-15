@@ -4,7 +4,7 @@
 
 #define WI_INIT_THRESHOLD 500u /* 500 * 0.01s = 5s */
 #define WI_OFF_THRESHOLD 200u  /* 200 * 0.01ms = 2s */
-#define WI_FREQ_NORMAL 100u /* Freq Hz = 1s */
+#define WI_FREQ_NORMAL 50u /* Freq Hz = 0.5s */
 
 typedef enum
 {
