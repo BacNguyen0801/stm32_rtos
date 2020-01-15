@@ -5,7 +5,7 @@ CC_DBG 	= arm-none-eabi-gdb
 CC_COPY = arm-none-eabi-objcopy
 ECHO 	= echo
 RM 		= rmdir /s /q
-MKDIR 	= mkdir -p
+MKDIR 	= mkdir
 
 # Define serial mC
 SERIES_CPU  = cortex-m3
@@ -20,7 +20,7 @@ CFLAGS += -D STM32F103xB
 
 BUILD_FOLDER		= .\build
 OBJECT_FOLDER 		= .\build\obj
-BIN_FOLDER 			= build\bin
+BIN_FOLDER 			= .\build\bin
 SOURCE_FOLDER 		= .\src
 SOURCE_FILES 		= .\src\main.c
 BASE_LINKER 		= linker
@@ -70,7 +70,7 @@ $(ELF_FILE_PATH): $(OBJECTS) $(STARTUP_OBJECT)
 	$(CC)  $(LDFLAGS) $(CFLAGS) $^ -o $@
 
 $(OBJECT_FOLDER)\\%.o: %.c
-	@echo creating $@ ...
+	@echo creating object $@ from $<...
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(STARTUP_OBJECT): $(DEVICE_STARTUP)
@@ -80,7 +80,8 @@ $(BUILD_FOLDER):
 	$(MKDIR) $(OBJECT_FOLDER) $(BIN_FOLDER)
 
 clean:
-	if [ -d $(BUILD_FOLDER) ]; then $(RM) $(BUILD_FOLDER) fi
+	if exist $(BUILD_FOLDER) $(RM) $(BUILD_FOLDER)
+	@echo Remove done !
 
 distclean: clean
 
