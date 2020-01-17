@@ -358,7 +358,7 @@ void stm32f1x_usart_driver_init()
 
 ErrorCode stm32f1x_usart_driver_write(BYTE data)
 {
-	ErrorCode Ret = R_PEND;
+	ErrorCode Ret = E_PEND;
 	switch (stm32f1_usart1_TxStt_en)
 	{
 	case stm32f1_usart_TxInit_e/* constant-expression */:
@@ -372,7 +372,7 @@ ErrorCode stm32f1x_usart_driver_write(BYTE data)
 			else
 			{
 				/* code */
-				Ret = R_BUSY;
+				Ret = E_BUSY;
 			}
 			
 		break;
@@ -381,7 +381,7 @@ ErrorCode stm32f1x_usart_driver_write(BYTE data)
 		{
 			stm32f1x_usart1_reg->CR1_REG.TE = TRANSMITTER_DISABLE;
 			stm32f1_usart1_TxStt_en = stm32f1_usart_TxInit_e;
-			Ret = R_OK; /* write completely */
+			Ret = E_OK; /* write completely */
 		}
 	
 	default:

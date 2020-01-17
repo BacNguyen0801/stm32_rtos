@@ -2,7 +2,7 @@
 #include "HAL_gpio_control.h"
 #include "HAL_timer_service.h"
 
-#define WI_INIT_THRESHOLD 500u /* 500 * 0.01s = 5s */
+#define WI_INIT_THRESHOLD 400u /* 500 * 0.01s = 5s */
 #define WI_OFF_THRESHOLD 200u  /* 200 * 0.01ms = 2s */
 #define WI_FREQ_NORMAL 50u /* Freq Hz = 0.5s */
 
